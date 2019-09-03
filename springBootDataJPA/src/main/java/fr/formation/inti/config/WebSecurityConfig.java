@@ -26,9 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
  
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder;
+    public BCryptPasswordEncoder passwordEncoder() {        
+        return new BCryptPasswordEncoder();
     }
  
     @Autowired
@@ -74,13 +73,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
         // Config Remember Me.
         http.authorizeRequests().and() //
-                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
+                .rememberMe().tokenRepository(this.persistentTokenRepository(this.dataSource)) //
                 .tokenValiditySeconds(1 * 24 * 60 * 60); // 24h
  
     }
  
     @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
+    public PersistentTokenRepository persistentTokenRepository(DataSource datasource) {
         JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
         db.setDataSource(dataSource);
         return db;
