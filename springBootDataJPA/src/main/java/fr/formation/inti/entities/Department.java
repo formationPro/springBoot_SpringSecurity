@@ -22,6 +22,7 @@ public class Department implements Serializable{
 	private String name;
 	
 	
+	private Set<Employee> employees = new HashSet<>(0);
 
 	public Department() {
 	}
@@ -33,7 +34,7 @@ public class Department implements Serializable{
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "DEPT_ID")
 	public Integer getDeptId() {
 		return deptId;
@@ -55,5 +56,13 @@ public class Department implements Serializable{
 //	@Transient
 	
 	
+	@OrderBy("FIRST_NAME desc")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
+	public Set<Employee> getEmployees() {
+		return employees;
+	}
 
+	public void setEmployees(Set<Employee> employees) {
+		this.employees = employees;
+	}
 }

@@ -19,8 +19,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "EMPLOYEE")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Employee implements Serializable{
 	
 	private Integer empId;	
@@ -53,8 +57,10 @@ public class Employee implements Serializable{
 	public void setEmpId(Integer empId) {
 		this.empId = empId;
 	}
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SUPERIOR_EMP_ID")
+	@JsonIgnore
 	public Employee getManager() {
 		return manager;
 	}
@@ -66,6 +72,7 @@ public class Employee implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DEPT_ID", nullable = true,
 			foreignKey = @ForeignKey(name="EMPLOYEE_DEPARTMENT_FK"),referencedColumnName = "DEPT_ID")
+	@JsonIgnore
 	public Department getDepartment() {
 		return department;
 	}

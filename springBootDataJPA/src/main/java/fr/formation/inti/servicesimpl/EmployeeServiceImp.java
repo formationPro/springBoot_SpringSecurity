@@ -29,7 +29,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
 	@Override
 	public List<Employee> findAllEmployees() {
-		return employeeRepository.findAll();
+		return (List<Employee>) employeeRepository.findAll();
 	}
 
 	@Override
