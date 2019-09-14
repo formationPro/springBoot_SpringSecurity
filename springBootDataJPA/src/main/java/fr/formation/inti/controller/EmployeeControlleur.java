@@ -40,13 +40,19 @@ public class EmployeeControlleur {
         
         Collection<? extends GrantedAuthority> authorities = loginedUser.getAuthorities();
         boolean isAdmin = false;
+        boolean isUser = false;
        for (GrantedAuthority grantedAuthority : authorities){
     	   if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
                isAdmin = true;
                break;
            }
+    	   if(grantedAuthority.getAuthority().equals("ROLE_USER")){
+    		   isUser = true;
+               break;
+    	   }
        }
         model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isUser", isUser);
         return "employee/index";
     }
 	
